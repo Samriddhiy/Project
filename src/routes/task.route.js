@@ -4,6 +4,7 @@ const router = express.Router();
 import {
     createTask,
     deleteTask,
+    getTaskCountPerUser,
     rateTask,
     updateTask
 } from "../controllers/task.controller.js"
@@ -16,6 +17,8 @@ router.put('/:id' , authorized , updateTask )
 router.delete('/:id' , authorized , deleteTask)
 
 // rating route 
-router.post('/rateTask/:id', authorized, rateTask);
+router.post('/rateTask/:id', authorized, rateTask); 
+
+router.get("/taskCount",authorized , getTaskCountPerUser);
 
 export default router ; 

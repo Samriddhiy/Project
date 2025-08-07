@@ -102,6 +102,43 @@ const rateTask = async (req, res) => {
   } catch (error) {
     res.status(500).json({ message: "Error in rating task", error: error.message });
   }
+}; 
+
+
+const getTaskCountPerUser = async (req, res) => {
+  try {
+    const result = await Task.aggregate([
+      {
+        $group: {
+          _id: "$createdBy",         
+          totalTasks: { $sum: 1 }   
+        }
+      },
+      {
+        $lookup: {
+          from: "users",             
+          localField: "_id",         
+          foreignField: "_id",
+          as: "user"
+        }
+      },
+      { $unwind: "$user" },           
+      {
+        $project: {
+          _id: 0,
+          userId: "$user._id",
+          name: "$user.name",         
+          email: "$user.email",
+          totalTasks: 1
+        }
+      }
+    ]);
+
+    res.status(200).json({ message: "Task count per user", data: result });
+
+  } catch (error) {
+    res.status(500).json({ message: "Error fetching task count", error: error.message });
+  }
 };
 
 
@@ -109,5 +146,6 @@ export {
     createTask,
     updateTask,
     deleteTask, 
-    rateTask
+    rateTask, 
+    getTaskCountPerUser
 }
