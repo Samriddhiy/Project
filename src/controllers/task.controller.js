@@ -1,6 +1,5 @@
-import express from 'express';
-import { User } from './user.controllers.js';
 import { Task } from '../models/task.model.js'; 
+import { User } from "../models/user.model.js"
 
 const createTask = async (req, res ) => {
     try {
