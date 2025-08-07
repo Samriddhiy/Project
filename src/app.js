@@ -19,5 +19,8 @@ app.use(express.static("public"));
 import userRouter from './routes/route.js'
 app.use("/api/v1/users" , userRouter) 
 
+import taskRouter from "./routes/task.route.js"
+app.use("/api/v1/tasks" , taskRouter)
+
 
 export  { app }
